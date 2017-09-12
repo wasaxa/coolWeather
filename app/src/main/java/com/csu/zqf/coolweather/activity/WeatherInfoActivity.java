@@ -1,11 +1,13 @@
 package com.csu.zqf.coolweather.activity;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,12 +24,14 @@ public class WeatherInfoActivity extends Activity {
 
     private LinearLayout weatherInfoLayout;
     private TextView cityNameTv,publishTextTv,currentDateTv,weatherDespTv,temp1Tv,temp2Tv;
-
+    private Button refreshBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.weather_layout);
+
+        String countyCode = getIntent().getStringExtra("countyCode");
 
         weatherInfoLayout=findViewById(R.id.weather_info_layout);
         cityNameTv = findViewById(R.id.city_name);
@@ -36,9 +40,33 @@ public class WeatherInfoActivity extends Activity {
         weatherDespTv=findViewById(R.id.weather_desp);
         temp1Tv=findViewById(R.id.temp1);
         temp2Tv=findViewById(R.id.temp2);
+        refreshBtn=findViewById(R.id.refresh);
 
-        String countyCode = getIntent().getStringExtra("countyCode");
-        queryWeatherCode(countyCode);
+        refreshBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(WeatherInfoActivity.this);
+                String weatherCode = preferences.getString("weather_code", "");
+                queryWeatherInfo(weatherCode);
+            }
+        });
+        cityNameTv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Boolean isChange = true;
+                Intent intent = new Intent(WeatherInfoActivity.this,ChooseAreaActivity.class);
+                intent.putExtra("isChange",isChange);
+                startActivity(intent);
+                finish();
+            }
+        });
+
+        if (countyCode!=null){
+            queryWeatherCode(countyCode);
+        }else {
+            showWeather();
+        }
+
 
     }
 

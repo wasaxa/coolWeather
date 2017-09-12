@@ -73,10 +73,19 @@ public class ChooseAreaActivity extends Activity {
                     Intent intent = new Intent(ChooseAreaActivity.this,WeatherInfoActivity.class);
                     intent.putExtra("countyCode",countyList.get(i).getCountyCode());
                     startActivity(intent);
+                    finish();
                 }
             }
         });
-        queryProvinces();
+        Boolean isChange = getIntent().getBooleanExtra("isChange",false);
+        if (isChange){
+            queryProvinces();
+        }else {
+            Intent intent = new Intent(ChooseAreaActivity.this,WeatherInfoActivity.class);
+            startActivity(intent);
+            finish();
+        }
+
     }
 
     private void queryProvinces(){
