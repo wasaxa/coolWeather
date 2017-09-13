@@ -96,7 +96,7 @@ public class Utility {
         }
     }
 
-    public static void saveWeatherInfo(Context context,String cityName,String weatherCode,String temp1,String temp2,String weatherDesp,String publishTime){
+    private static void saveWeatherInfo(Context context,String cityName,String weatherCode,String temp1,String temp2,String weatherDesp,String publishTime){
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy年M月d日", Locale.CANADA);
         SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(context).edit();
         editor.putBoolean("city_selected",true);

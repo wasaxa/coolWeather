@@ -13,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.csu.zqf.coolweather.R;
+import com.csu.zqf.coolweather.server.AutoUpdateService;
 import com.csu.zqf.coolweather.util.HttpCallbackListener;
 import com.csu.zqf.coolweather.util.HttpUtil;
 import com.csu.zqf.coolweather.util.Utility;
@@ -91,6 +92,9 @@ public class WeatherInfoActivity extends Activity {
         currentDateTv.setText(preferences.getString("current_date", ""));
         weatherInfoLayout.setVisibility(View.VISIBLE);
         cityNameTv.setVisibility(View.VISIBLE);
+
+        Intent intent = new Intent(WeatherInfoActivity.this, AutoUpdateService.class);
+        startService(intent);
     }
 
     private void queryFromServer(final String code,final String type){
